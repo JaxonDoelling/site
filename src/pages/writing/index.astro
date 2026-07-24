@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<BaseLayout title="Writing">
+  <section class="section">
+    <div class="section-head">
+      <h1>Writing</h1>
+      <a href="/writing/rss.xml" class="link meta">RSS</a>
+    </div>
+    <ul class="post-list">
+      {
+        posts.map((post) => (
+          <li>
+            <a href={`/writing/${post.slug}`} class="post-row">
+              <span class="meta post-date">{post.data.date.toISOString().slice(0, 10)}</span>
+              <span class="post-title">{post.data.title}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    {posts.length === 0 && <p class="meta">Nothing published yet.</p>}
+  </section>
+</BaseLayout>
+
+<style>
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+
+  .post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .post-row {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  li:first-child .post-row {
+    border-top: none;
+  }
+
+  .post-date {
+    flex-shrink: 0;
+    width: 6.5rem;
+  }
+
+  .post-title {
+    color: var(--color-text);
+  }
+
+  .post-row:hover .post-title {
+    color: var(--color-accent);
+  }
+</style>

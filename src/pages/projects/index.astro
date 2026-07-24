@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<BaseLayout title="Projects">
+  <section class="section">
+    <h1>Projects</h1>
+    <div class="card-grid">
+      {
+        projects.map((project) => (
+          <a href={`/projects/${project.slug}`} class="card">
+            <h3>{project.data.title}</h3>
+            <p>{project.data.summary}</p>
+            <div class="tags">
+              {project.data.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+          </a>
+        ))
+      }
+    </div>
+    {projects.length === 0 && <p class="meta">Nothing published yet.</p>}
+  </section>
+</BaseLayout>
+
+<style>
+  .card-grid {
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .tags {
+    margin-top: 0.75rem;
+  }
+</style>

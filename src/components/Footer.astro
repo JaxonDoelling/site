@@ -1,0 +1,44 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <span class="meta">&copy; {year} Jaxon Oliver Doelling</span>
+  <div class="links">
+    <a href="/writing/rss.xml" class="meta link">RSS</a>
+    <a href="https://github.com/jaxondoelling" class="meta link">GitHub</a>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .links {
+    display: flex;
+    gap: 1.25rem;
+  }
+
+  .link {
+    text-decoration: none;
+    color: var(--color-text-tertiary);
+  }
+
+  .link:hover {
+    color: var(--color-text);
+  }
+
+  @media (max-width: 640px) {
+    .footer {
+      padding: 1.25rem;
+      flex-direction: column;
+      gap: 0.75rem;
+      align-items: flex-start;
+    }
+  }
+</style>
