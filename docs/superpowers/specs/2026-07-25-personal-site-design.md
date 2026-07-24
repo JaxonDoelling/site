@@ -4,7 +4,8 @@ Date: 2026-07-25
 
 ## Purpose
 
-A portfolio-first, blog-secondary personal site for Jaxon Doelling. Showcases
+A portfolio-first, blog-secondary personal site for Jaxon Oliver Doelling.
+Showcases
 software/dev projects and writing/research, with a resume/about section.
 Blog and project content is written in Obsidian and published by pushing to
 git — no manual export step.
@@ -89,7 +90,6 @@ Inspired by vercel.com's contrast and layout:
 No comments system, no search, no newsletter/email capture. These are easy
 to add later if actually wanted; building them now would be speculative.
 
-## Assumptions to confirm
+## Confirmed details
 
-- Display name is "Jaxon Doelling" (inferred from account email) — correct
-  if wrong.
+- Display name: Jaxon Oliver Doelling.
