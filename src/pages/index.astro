@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import OctopusMark from '../components/OctopusMark.astro';
 import { getCollection } from 'astro:content';
 
 const projects = (await getCollection('projects', ({ data }) => !data.draft))
@@ -14,8 +13,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
 
 <BaseLayout title="Home">
   <section class="section hero">
-    <OctopusMark size={40} class="hero-mark" />
-    <h1>Jaxon Oliver Doelling</h1>
+    <h1>Wake up with determination. Go to sleep with satisfaction.</h1>
     <p class="prose">
       I build software and write about what I learn along the way. This is
       where I keep both.
@@ -70,9 +68,8 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
 </BaseLayout>
 
 <style>
-  .hero-mark {
-    color: var(--color-text-secondary);
-    margin-bottom: 1rem;
+  .hero h1 {
+    max-width: 20ch;
   }
 
   .hero-links {
