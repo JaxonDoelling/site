@@ -91,4 +91,18 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
   .card-grid {
     gap: 1rem;
   }
+
+  .card-grid .card {
+    box-shadow: 0 0 20px rgba(47, 143, 255, 0.05);
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .card-grid .card:hover {
+    border-color: var(--color-accent);
+    box-shadow:
+      0 0 24px rgba(47, 143, 255, 0.25),
+      0 0 4px rgba(47, 143, 255, 0.4);
+  }
 </style>
