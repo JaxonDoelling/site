@@ -4,6 +4,9 @@ import CardSlider from '../components/CardSlider.astro';
 import PhoneOutline from '../components/icons/PhoneOutline.astro';
 import LaptopOutline from '../components/icons/LaptopOutline.astro';
 import KatanaOutline from '../components/icons/KatanaOutline.astro';
+import M4A1Outline from '../components/icons/M4A1Outline.astro';
+import BackpackOutline from '../components/icons/BackpackOutline.astro';
+import CasioWatchOutline from '../components/icons/CasioWatchOutline.astro';
 import { getCollection } from 'astro:content';
 
 const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
@@ -81,6 +84,18 @@ const postItems = posts.map((post) => ({
       <div class="gear-item">
         <h3>Katana</h3>
         <div class="gear-icon"><KatanaOutline /></div>
+      </div>
+      <div class="gear-item">
+        <h3>M4A1</h3>
+        <div class="gear-icon"><M4A1Outline /></div>
+      </div>
+      <div class="gear-item">
+        <h3>Tactical Backpack</h3>
+        <div class="gear-icon"><BackpackOutline /></div>
+      </div>
+      <div class="gear-item">
+        <h3>Casio Watch</h3>
+        <div class="gear-icon"><CasioWatchOutline /></div>
       </div>
     </div>
   </section>
