@@ -5,6 +5,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <BaseLayout title="About">
   <section class="section prose">
     <h1>About</h1>
+    <blockquote class="quote">
+      Wake up with determination. Go to sleep with satisfaction.
+    </blockquote>
     <p>
       Hi, I'm Jaxon Oliver Doelling. Replace this paragraph with a real bio —
       who you are, what you work on, what you're into outside of it.
@@ -61,6 +64,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </BaseLayout>
 
 <style>
+  .quote {
+    margin: 1.25rem 0 2rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--color-accent);
+    font-style: italic;
+    color: var(--color-text-secondary);
+  }
+
   .tags {
     margin: 1rem 0;
   }
