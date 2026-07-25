@@ -8,15 +8,46 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <blockquote class="quote">
       Wake up with determination. Go to sleep with satisfaction.
     </blockquote>
+
+    <blockquote class="quote">
+      "A man has two lives. The second one starts when he realizes he only
+      has one."
+    </blockquote>
     <p>
-      Hi, I'm Jaxon Oliver Doelling. Replace this paragraph with a real bio —
-      who you are, what you work on, what you're into outside of it.
+      I was born on August 16, 2002, and for most of my life I lived like
+      that second life hadn't started yet — moving through decisions
+      instead of making them. That line is the moment it flipped for me:
+      not a countdown to something ending, but a wake-up call that this is
+      the only version of my life I get, which means every choice in it
+      actually counts.
     </p>
+    <p>
+      If there's one thing life has taught me, it's that being human comes
+      with a job attached: to keep working on becoming your best self,
+      deliberately, not by accident. I didn't start out doing that. Coming
+      out of school, I let a lot of outside opinions decide what my career
+      was supposed to look like, and I spent a while chasing directions
+      that were never really mine to begin with.
+    </p>
+    <p>
+      What I actually want is straightforward to say and a lot harder to
+      do — to be someone of consequence. Not for recognition, but to prove
+      to myself that I'm capable of more than I've shown so far, and to
+      eventually build something that matters beyond me.
+    </p>
+    <p>
+      That's what this whole stretch has been: navigation, not a straight
+      line. I started in cybersecurity, I'm now working toward a computer
+      science degree, and the goal past that is to build something
+      genuinely important for humanity.
+    </p>
+    <blockquote class="quote">
+      The compass was created before the clock, because direction is more
+      important than time.
+    </blockquote>
 
     <h2>Work</h2>
-    <ul>
-      <li><strong>Role, Company</strong> — dates. What you did there.</li>
-    </ul>
+    <p>No formal experience in the IT field yet — that's what this next chapter is for.</p>
 
     <h2>Skills</h2>
 
@@ -52,14 +83,40 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <span class="tag">Marketing automation</span>
     </div>
 
-    <p class="meta skills-note">(edit me — this list is a placeholder starting point, swap in what's actually true)</p>
+    <h3>Communication & direction</h3>
+    <div class="tags">
+      <span class="tag">Public speaking</span>
+      <span class="tag">Strategic communication</span>
+      <span class="tag">Team leadership</span>
+      <span class="tag">Mentoring</span>
+      <span class="tag">Conflict resolution</span>
+    </div>
 
+    <h3>Computer science (Monash, incoming)</h3>
+    <div class="tags">
+      <span class="tag">Data structures & algorithms</span>
+      <span class="tag">Software engineering practices</span>
+      <span class="tag">Systems programming</span>
+      <span class="tag">Databases</span>
+      <span class="tag">Machine learning fundamentals</span>
+      <span class="tag">Cloud computing</span>
+    </div>
+
+    <p class="meta skills-note">(edit me — this list is a placeholder starting point, swap in what's actually true)</p>
+  </section>
+
+  <section class="section contact-section">
     <h2>Contact</h2>
-    <p>
-      <a href="mailto:jaxon.doelling@outlook.com" class="link">jaxon.doelling@outlook.com</a>
-      &middot;
-      <a href="https://github.com/JaxonDoelling" class="link">GitHub</a>
-    </p>
+    <div class="contact-grid">
+      <a href="mailto:jaxon.doelling@outlook.com" class="contact-box">
+        <span class="contact-label meta">Email</span>
+        <span class="contact-value">jaxon.doelling@outlook.com</span>
+      </a>
+      <a href="https://github.com/JaxonDoelling" class="contact-box">
+        <span class="contact-label meta">GitHub</span>
+        <span class="contact-value">@JaxonDoelling</span>
+      </a>
+    </div>
   </section>
 </BaseLayout>
 
@@ -74,5 +131,55 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   .tags {
     margin: 1rem 0;
+  }
+
+  .contact-section {
+    text-align: center;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .contact-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 2.5rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background: var(--color-bg-elevated);
+    box-shadow: 0 0 20px rgba(47, 143, 255, 0.05);
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .contact-box:hover {
+    border-color: var(--color-accent);
+    box-shadow:
+      0 0 24px rgba(47, 143, 255, 0.25),
+      0 0 4px rgba(47, 143, 255, 0.4);
+  }
+
+  .contact-label {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .contact-value {
+    font-size: 1.05rem;
+    color: var(--color-text);
+  }
+
+  @media (max-width: 640px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
