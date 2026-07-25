@@ -1,0 +1,134 @@
+---
+interface SliderItem {
+  href: string;
+  title: string;
+  summary: string;
+}
+
+interface Props {
+  items: SliderItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="slider" data-slider>
+  <div class="slider-track" data-track>
+    {
+      items.map((item) => (
+        <a href={item.href} class="card slider-card">
+          <h3>{item.title}</h3>
+          <p>{item.summary}</p>
+        </a>
+      ))
+    }
+  </div>
+  <div class="slider-controls">
+    <button type="button" class="slider-btn" data-prev aria-label="Previous">
+      &#8249;
+    </button>
+    <button type="button" class="slider-btn" data-next aria-label="Next">
+      &#8250;
+    </button>
+  </div>
+</div>
+
+<style>
+  .slider {
+    position: relative;
+  }
+
+  .slider-track {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding-bottom: 0.25rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .slider-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .slider-card {
+    flex: 0 0 280px;
+    scroll-snap-align: start;
+    box-shadow: 0 0 20px rgba(47, 143, 255, 0.05);
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .slider-card:hover {
+    border-color: var(--color-accent);
+    box-shadow:
+      0 0 24px rgba(47, 143, 255, 0.25),
+      0 0 4px rgba(47, 143, 255, 0.4);
+  }
+
+  .slider-controls {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    margin-top: 1rem;
+  }
+
+  .slider-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    border: 1px solid var(--color-border-strong);
+    background: transparent;
+    color: var(--color-text);
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .slider-btn:hover:not(:disabled) {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .slider-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-slider]').forEach((slider) => {
+    const track = slider.querySelector<HTMLElement>('[data-track]');
+    const prevBtn = slider.querySelector<HTMLButtonElement>('[data-prev]');
+    const nextBtn = slider.querySelector<HTMLButtonElement>('[data-next]');
+    if (!track || !prevBtn || !nextBtn) return;
+
+    const scrollByCard = (dir: number) => {
+      const card = track.querySelector<HTMLElement>('.slider-card');
+      const gap = 16;
+      const amount = card ? card.getBoundingClientRect().width + gap : track.clientWidth;
+      track.scrollBy({ left: dir * amount, behavior: 'smooth' });
+    };
+
+    const updateButtons = () => {
+      const maxScroll = track.scrollWidth - track.clientWidth - 1;
+      prevBtn.disabled = track.scrollLeft <= 0;
+      nextBtn.disabled = track.scrollLeft >= maxScroll;
+    };
+
+    prevBtn.addEventListener('click', () => scrollByCard(-1));
+    nextBtn.addEventListener('click', () => scrollByCard(1));
+    track.addEventListener('scroll', updateButtons, { passive: true });
+    window.addEventListener('resize', updateButtons);
+    updateButtons();
+  });
+</script>

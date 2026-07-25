@@ -1,17 +1,30 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import CardSlider from '../components/CardSlider.astro';
 import PhoneOutline from '../components/icons/PhoneOutline.astro';
 import LaptopOutline from '../components/icons/LaptopOutline.astro';
 import KatanaOutline from '../components/icons/KatanaOutline.astro';
 import { getCollection } from 'astro:content';
 
-const projects = (await getCollection('projects', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3);
+const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
 
-const posts = (await getCollection('posts', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3);
+const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const projectItems = projects.map((project) => ({
+  href: `/projects/${project.slug}`,
+  title: project.data.title,
+  summary: project.data.summary,
+}));
+
+const postItems = posts.map((post) => ({
+  href: `/writing/${post.slug}`,
+  title: post.data.title,
+  summary: post.data.summary,
+}));
 ---
 
 <BaseLayout title="Home">
@@ -28,7 +41,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
   </section>
 
   {
-    projects.length > 0 && (
+    projectItems.length > 0 && (
       <section class="section">
         <div class="section-head">
           <h2>Projects</h2>
@@ -36,20 +49,13 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
             View all
           </a>
         </div>
-        <div class="card-grid">
-          {projects.map((project) => (
-            <a href={`/projects/${project.slug}`} class="card">
-              <h3>{project.data.title}</h3>
-              <p>{project.data.summary}</p>
-            </a>
-          ))}
-        </div>
+        <CardSlider items={projectItems} />
       </section>
     )
   }
 
   {
-    posts.length > 0 && (
+    postItems.length > 0 && (
       <section class="section">
         <div class="section-head">
           <h2>Writing</h2>
@@ -57,14 +63,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
             View all
           </a>
         </div>
-        <div class="card-grid">
-          {posts.map((post) => (
-            <a href={`/writing/${post.slug}`} class="card">
-              <h3>{post.data.title}</h3>
-              <p>{post.data.summary}</p>
-            </a>
-          ))}
-        </div>
+        <CardSlider items={postItems} />
       </section>
     )
   }
@@ -100,24 +99,6 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
     align-items: baseline;
     justify-content: space-between;
     margin-bottom: 1.5rem;
-  }
-
-  .card-grid {
-    gap: 1rem;
-  }
-
-  .card-grid .card {
-    box-shadow: 0 0 20px rgba(47, 143, 255, 0.05);
-    transition:
-      border-color 0.2s ease,
-      box-shadow 0.2s ease;
-  }
-
-  .card-grid .card:hover {
-    border-color: var(--color-accent);
-    box-shadow:
-      0 0 24px rgba(47, 143, 255, 0.25),
-      0 0 4px rgba(47, 143, 255, 0.4);
   }
 
   .gear-grid {
