@@ -1,6 +1,4 @@
 ---
-import OctopusMark from './OctopusMark.astro';
-
 const links = [
   { href: '/projects', label: 'Projects' },
   { href: '/writing', label: 'Writing' },
@@ -12,7 +10,6 @@ const current = Astro.url.pathname;
 
 <header class="header">
   <a href="/" class="brand">
-    <OctopusMark size={22} />
     <span>Jaxon Doelling</span>
   </a>
   <nav class="nav">
@@ -41,13 +38,8 @@ const current = Astro.url.pathname;
   .brand {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
     font-weight: 600;
     color: var(--color-text);
-  }
-
-  .brand :global(svg) {
-    color: var(--color-text-secondary);
   }
 
   .nav {
