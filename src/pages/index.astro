@@ -31,17 +31,6 @@ const postItems = posts.map((post) => ({
 ---
 
 <BaseLayout title="Home">
-  <section class="section hero">
-    <h1>
-      I build software and write about what I learn along the way. This is
-      where I keep both.
-    </h1>
-    <div class="hero-links">
-      <a href="/projects" class="btn btn-primary">See projects</a>
-      <a href="/writing" class="btn">Read writing</a>
-    </div>
-  </section>
-
   {
     projectItems.length > 0 && (
       <section class="section">
@@ -102,26 +91,6 @@ const postItems = posts.map((post) => ({
 </BaseLayout>
 
 <style>
-  .hero {
-    padding-top: 4.5rem;
-    padding-bottom: 4.5rem;
-  }
-
-  .hero h1 {
-    max-width: 34ch;
-    font-size: clamp(1.6rem, 3vw, 2.25rem);
-    font-weight: 500;
-    line-height: 1.45;
-    letter-spacing: normal;
-    color: var(--color-text);
-  }
-
-  .hero-links {
-    display: flex;
-    gap: 0.75rem;
-    margin-top: 2rem;
-  }
-
   .section-head {
     display: flex;
     align-items: baseline;
