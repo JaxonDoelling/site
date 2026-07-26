@@ -31,6 +31,27 @@ const postItems = posts.map((post) => ({
 ---
 
 <BaseLayout title="Home">
+  <section class="section">
+    <h2>By the numbers</h2>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <p class="metric-value">$10.8T</p>
+        <p class="metric-label">Projected global cost of cybercrime, 2026</p>
+        <p class="metric-source meta">Cybersecurity Ventures</p>
+      </div>
+      <div class="metric-card">
+        <p class="metric-value">$618B</p>
+        <p class="metric-label">Global AI market size, 2026</p>
+        <p class="metric-source meta">Statista</p>
+      </div>
+      <div class="metric-card">
+        <p class="metric-value">+32%</p>
+        <p class="metric-label">Revenue growth for top design-led companies vs. peers</p>
+        <p class="metric-source meta">McKinsey Design Index</p>
+      </div>
+    </div>
+  </section>
+
   {
     projectItems.length > 0 && (
       <section class="section">
@@ -91,6 +112,56 @@ const postItems = posts.map((post) => ({
 </BaseLayout>
 
 <style>
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .metric-card {
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 2rem 1.5rem;
+    background: var(--color-bg-elevated);
+    box-shadow: 0 0 20px rgba(47, 143, 255, 0.05);
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .metric-card:hover {
+    border-color: var(--color-accent);
+    box-shadow:
+      0 0 24px rgba(47, 143, 255, 0.25),
+      0 0 4px rgba(47, 143, 255, 0.4);
+  }
+
+  .metric-value {
+    font-family: var(--font-mono);
+    font-size: 2.25rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+  }
+
+  .metric-label {
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .metric-source {
+    color: var(--color-text-tertiary);
+  }
+
+  @media (max-width: 640px) {
+    .metrics-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
   .section-head {
     display: flex;
     align-items: baseline;
