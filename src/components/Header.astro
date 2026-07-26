@@ -10,7 +10,8 @@ const current = Astro.url.pathname;
 
 <header class="header">
   <a href="/" class="brand">
-    <span>Jaxon Doelling</span>
+    <span class="status-dot" aria-hidden="true"></span>
+    <span>Jaxon Oliver Doelling</span>
   </a>
   <nav class="nav">
     {
@@ -38,8 +39,39 @@ const current = Astro.url.pathname;
   .brand {
     display: flex;
     align-items: center;
+    gap: 0.55rem;
     font-weight: 600;
     color: var(--color-text);
+  }
+
+  .status-dot {
+    position: relative;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #22c55e;
+    flex-shrink: 0;
+  }
+
+  .status-dot::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 999px;
+    background: #22c55e;
+    opacity: 0.5;
+    animation: status-pulse 2s ease-out infinite;
+  }
+
+  @keyframes status-pulse {
+    0% {
+      transform: scale(0.6);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(1.8);
+      opacity: 0;
+    }
   }
 
   .nav {
