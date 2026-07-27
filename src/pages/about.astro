@@ -3,49 +3,59 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="About">
-  <section class="section prose">
-    <h1>About</h1>
+  <section class="section intro-section">
+    <div class="intro-grid">
+      <h1>About</h1>
+      <div class="bio-text">
+        <p>
+          I was born on August 16, 2002. For a long time, I think I was
+          still living like I had more than one shot at this — just going
+          along with whatever came next instead of actually choosing
+          anything. At some point that stopped sitting right with me.
+          Nothing dramatic, just a quiet realization that I only get one
+          run at this, so I might as well take it seriously.
+        </p>
+        <p>
+          One of the bigger things I've picked up along the way is that
+          trying to become a better version of yourself isn't optional —
+          it's just part of being a person. I didn't always live like
+          that. Coming out of school, I let a lot of other people's
+          opinions shape what I thought my career was supposed to look
+          like, and I spent a while on paths that were never really mine
+          to begin with.
+        </p>
+        <p>
+          What I want now is simple enough to say: I want to build
+          something that actually matters, and I want to prove to myself
+          that I'm capable of more than I've shown so far. That's mostly
+          for my own sake, not anyone else's.
+        </p>
+        <p>
+          The path there hasn't been a straight line. I started in
+          cybersecurity, I'm now working toward a computer science
+          degree, and eventually I want to build something genuinely
+          useful for people — not just something that reads well on a
+          resume.
+        </p>
+      </div>
+    </div>
+  </section>
 
-    <blockquote class="quote">
-      "A man has two lives. The second one starts when he realizes he only
-      has one."
-    </blockquote>
-    <p>
-      I was born on August 16, 2002. That quote is one I keep coming back
-      to — for a long time, I think I was still living in that first life,
-      just going along with whatever came next instead of actually
-      choosing anything. At some point that stopped sitting right with me.
-      Nothing dramatic, just a quiet realization that I only get one run
-      at this, so I might as well take it seriously.
-    </p>
-    <p>
-      One of the bigger things I've picked up along the way is that trying
-      to become a better version of yourself isn't optional — it's just
-      part of being a person. I didn't always live like that. Coming out
-      of school, I let a lot of other people's opinions shape what I
-      thought my career was supposed to look like, and I spent a while on
-      paths that were never really mine to begin with.
-    </p>
-    <p>
-      What I want now is simple enough to say: I want to build something
-      that actually matters, and I want to prove to myself that I'm
-      capable of more than I've shown so far. That's mostly for my own
-      sake, not anyone else's.
-    </p>
-    <p>
-      The path there hasn't been a straight line. I started in
-      cybersecurity, I'm now working toward a computer science degree,
-      and eventually I want to build something genuinely useful for
-      people — not just something that reads well on a resume.
-    </p>
-    <blockquote class="quote">
-      The compass was created before the clock, because direction is more
-      important than time.
-    </blockquote>
+  <section class="section">
+    <h2>Quotes</h2>
+    <div class="quotes-list">
+      <blockquote class="quote">
+        "A man has two lives. The second one starts when he realizes he
+        only has one."
+      </blockquote>
+      <blockquote class="quote">
+        The compass was created before the clock, because direction is
+        more important than time.
+      </blockquote>
+    </div>
+  </section>
 
-    <h2>Work</h2>
-    <p>No formal experience in the IT field yet — that's what this next chapter is for.</p>
-
+  <section class="section">
     <h2>Skills</h2>
 
     <h3>Cybersecurity</h3>
@@ -53,10 +63,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <span class="tag">Penetration testing</span>
       <span class="tag">Vulnerability assessment</span>
       <span class="tag">OWASP Top 10</span>
-      <span class="tag">Threat modeling</span>
-      <span class="tag">SIEM (Splunk, ELK)</span>
       <span class="tag">Incident response</span>
-      <span class="tag">Identity & access management</span>
       <span class="tag">Zero Trust architecture</span>
       <span class="tag">Cloud security (AWS/Azure)</span>
     </div>
@@ -118,8 +125,33 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </BaseLayout>
 
 <style>
+  .intro-grid {
+    display: grid;
+    grid-template-columns: minmax(140px, 220px) 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .intro-grid h1 {
+    position: sticky;
+    top: 2rem;
+    margin: 0;
+  }
+
+  .bio-text {
+    max-width: 640px;
+  }
+
+  .quotes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    max-width: 640px;
+  }
+
   .quote {
-    margin: 1.25rem 0 2rem;
+    margin: 0;
     padding-left: 1rem;
     border-left: 2px solid var(--color-accent);
     font-style: italic;
@@ -175,6 +207,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   @media (max-width: 640px) {
+    .intro-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .intro-grid h1 {
+      position: static;
+    }
+
     .contact-grid {
       grid-template-columns: 1fr;
     }
