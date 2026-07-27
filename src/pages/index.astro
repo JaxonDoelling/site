@@ -7,6 +7,7 @@ import KatanaOutline from '../components/icons/KatanaOutline.astro';
 import M4A1Outline from '../components/icons/M4A1Outline.astro';
 import BackpackOutline from '../components/icons/BackpackOutline.astro';
 import CasioWatchOutline from '../components/icons/CasioWatchOutline.astro';
+import MelbourneMapOutline from '../components/icons/MelbourneMapOutline.astro';
 import { getCollection } from 'astro:content';
 
 const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
@@ -32,7 +33,6 @@ const postItems = posts.map((post) => ({
 
 <BaseLayout title="Home">
   <section class="section">
-    <h2>By the numbers</h2>
     <div class="metrics-grid">
       <div class="metric-card">
         <p class="metric-value">$10.8T</p>
@@ -49,6 +49,11 @@ const postItems = posts.map((post) => ({
         <p class="metric-label">ROI from IBM's enterprise design thinking practice</p>
         <p class="metric-source meta">Forrester Total Economic Impact study</p>
       </div>
+    </div>
+
+    <div class="map-wrap">
+      <div class="map-icon"><MelbourneMapOutline /></div>
+      <p class="meta map-label">Melbourne, VIC</p>
     </div>
   </section>
 
@@ -184,6 +189,28 @@ const postItems = posts.map((post) => ({
     .metrics-grid {
       grid-template-columns: 1fr;
     }
+  }
+
+  .map-wrap {
+    margin-top: 2.5rem;
+    text-align: center;
+  }
+
+  .map-icon {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    color: var(--color-text-secondary);
+  }
+
+  .map-icon :global(svg) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .map-label {
+    margin-top: 1rem;
   }
 
   .section-head {

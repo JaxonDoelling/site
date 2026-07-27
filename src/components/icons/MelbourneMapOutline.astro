@@ -1,0 +1,40 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+---
+
+<svg
+  class={className}
+  viewBox="0 0 400 300"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+>
+  <!-- Yarra River -->
+  <path
+    d="M10,240 C70,215 110,265 170,245 C250,220 300,260 390,235"
+    stroke="currentColor"
+    stroke-width="2.5"
+    stroke-linecap="round"
+  />
+
+  <!-- Hoddle Grid (CBD street grid), tilted to match Melbourne's real orientation -->
+  <g transform="rotate(-18 200 130)">
+    <rect x="110" y="70" width="180" height="120" rx="2" stroke="currentColor" stroke-width="1.5" />
+    <line x1="146" y1="70" x2="146" y2="190" stroke="currentColor" stroke-width="1" />
+    <line x1="182" y1="70" x2="182" y2="190" stroke="currentColor" stroke-width="1" />
+    <line x1="218" y1="70" x2="218" y2="190" stroke="currentColor" stroke-width="1" />
+    <line x1="254" y1="70" x2="254" y2="190" stroke="currentColor" stroke-width="1" />
+    <line x1="110" y1="100" x2="290" y2="100" stroke="currentColor" stroke-width="1" />
+    <line x1="110" y1="130" x2="290" y2="130" stroke="currentColor" stroke-width="1" />
+    <line x1="110" y1="160" x2="290" y2="160" stroke="currentColor" stroke-width="1" />
+
+    <!-- location marker -->
+    <path
+      d="M182,121 C187,121 191,125 191,130 C191,136 182,144 182,144 C182,144 173,136 173,130 C173,125 177,121 182,121 Z"
+      fill="#2f8fff"
+    />
+  </g>
+</svg>
