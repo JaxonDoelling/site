@@ -3,38 +3,142 @@ interface Props {
   class?: string;
 }
 const { class: className = '' } = Astro.props;
+
+function mulberry32(seed: number) {
+  return function () {
+    seed |= 0;
+    seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+interface BlobOptions {
+  cx: number;
+  cy: number;
+  baseR: number;
+  points: number;
+  variance: number;
+  seed: number;
+  bias?: (angle: number) => number;
+}
+
+function smoothBlob({ cx, cy, baseR, points, variance, seed, bias }: BlobOptions) {
+  const rand = mulberry32(seed);
+  const pts: [number, number][] = [];
+  for (let i = 0; i < points; i++) {
+    const angle = (i / points) * Math.PI * 2;
+    let r = baseR * (1 + (rand() - 0.5) * variance);
+    if (bias) r *= bias(angle);
+    pts.push([cx + Math.cos(angle) * r, cy + Math.sin(angle) * r]);
+  }
+  let d = `M ${((pts[0][0] + pts[pts.length - 1][0]) / 2).toFixed(1)} ${((pts[0][1] + pts[pts.length - 1][1]) / 2).toFixed(1)}`;
+  for (let i = 0; i < pts.length; i++) {
+    const p1 = pts[i];
+    const p2 = pts[(i + 1) % pts.length];
+    const mx = ((p1[0] + p2[0]) / 2).toFixed(1);
+    const my = ((p1[1] + p2[1]) / 2).toFixed(1);
+    d += ` Q ${p1[0].toFixed(1)} ${p1[1].toFixed(1)} ${mx} ${my}`;
+  }
+  d += ' Z';
+  return d;
+}
+
+// Elongate the landmass toward the south-southeast to suggest a peninsula tail
+const peninsulaBias = (angle: number) => {
+  const target = (100 * Math.PI) / 180;
+  let diff = Math.abs(angle - target);
+  if (diff > Math.PI) diff = 2 * Math.PI - diff;
+  const falloff = Math.max(0, 1 - diff / (Math.PI / 2.6));
+  return 1 + falloff * 0.5;
+};
+
+const landPath = smoothBlob({ cx: 280, cy: 230, baseR: 165, points: 18, variance: 0.16, seed: 7, bias: peninsulaBias });
+const bayPath = smoothBlob({ cx: 110, cy: 360, baseR: 130, points: 12, variance: 0.18, seed: 21 });
+const combinedPath = `${landPath} ${bayPath}`;
+
+const hub = { x: 320, y: 200 };
+
+// dense CBD grid, tilted like the real Hoddle Grid
+const cbdCols = 7;
+const cbdRows = 6;
+const cbdW = 150;
+const cbdH = 110;
+const cbdOriginX = hub.x - cbdW / 2;
+const cbdOriginY = hub.y - cbdH / 2;
+const cbdAngle = -16;
+const cbdLines: { x1: number; y1: number; x2: number; y2: number }[] = [];
+for (let i = 1; i < cbdCols; i++) {
+  const x = cbdOriginX + (i * cbdW) / cbdCols;
+  cbdLines.push({ x1: x, y1: cbdOriginY, x2: x, y2: cbdOriginY + cbdH });
+}
+for (let j = 1; j < cbdRows; j++) {
+  const y = cbdOriginY + (j * cbdH) / cbdRows;
+  cbdLines.push({ x1: cbdOriginX, y1: y, x2: cbdOriginX + cbdW, y2: y });
+}
+
+// organic radiating road network
+const roadRand = mulberry32(99);
+const roads: { d: string; opacity: string; width: number }[] = [];
+for (let i = 0; i < 60; i++) {
+  const angle = roadRand() * Math.PI * 2;
+  const length = 160 + roadRand() * 220;
+  const midLen = length * (0.4 + roadRand() * 0.2);
+  const jitter = (roadRand() - 0.5) * 50;
+  const endX = hub.x + Math.cos(angle) * length;
+  const endY = hub.y + Math.sin(angle) * length;
+  const midX = hub.x + Math.cos(angle) * midLen - Math.sin(angle) * jitter;
+  const midY = hub.y + Math.sin(angle) * midLen + Math.cos(angle) * jitter;
+  roads.push({
+    d: `M ${hub.x.toFixed(1)} ${hub.y.toFixed(1)} Q ${midX.toFixed(1)} ${midY.toFixed(1)} ${endX.toFixed(1)} ${endY.toFixed(1)}`,
+    opacity: (0.2 + roadRand() * 0.35).toFixed(2),
+    width: roadRand() > 0.85 ? 1.2 : 0.6,
+  });
+}
+
+const rings = [65, 115, 170, 230];
 ---
 
 <svg
   class={className}
-  viewBox="0 0 400 300"
+  viewBox="-60 30 560 560"
   fill="none"
   xmlns="http://www.w3.org/2000/svg"
   aria-hidden="true"
 >
-  <!-- Yarra River -->
+  <defs>
+    <clipPath id="melb-land-clip">
+      <path d={combinedPath} fill-rule="evenodd" />
+    </clipPath>
+  </defs>
+
   <path
-    d="M10,240 C70,215 110,265 170,245 C250,220 300,260 390,235"
+    d={combinedPath}
+    fill-rule="evenodd"
+    fill="currentColor"
+    fill-opacity="0.07"
     stroke="currentColor"
-    stroke-width="2.5"
-    stroke-linecap="round"
+    stroke-width="1.5"
   />
 
-  <!-- Hoddle Grid (CBD street grid), tilted to match Melbourne's real orientation -->
-  <g transform="rotate(-18 200 130)">
-    <rect x="110" y="70" width="180" height="120" rx="2" stroke="currentColor" stroke-width="1.5" />
-    <line x1="146" y1="70" x2="146" y2="190" stroke="currentColor" stroke-width="1" />
-    <line x1="182" y1="70" x2="182" y2="190" stroke="currentColor" stroke-width="1" />
-    <line x1="218" y1="70" x2="218" y2="190" stroke="currentColor" stroke-width="1" />
-    <line x1="254" y1="70" x2="254" y2="190" stroke="currentColor" stroke-width="1" />
-    <line x1="110" y1="100" x2="290" y2="100" stroke="currentColor" stroke-width="1" />
-    <line x1="110" y1="130" x2="290" y2="130" stroke="currentColor" stroke-width="1" />
-    <line x1="110" y1="160" x2="290" y2="160" stroke="currentColor" stroke-width="1" />
-
-    <!-- location marker -->
-    <path
-      d="M182,121 C187,121 191,125 191,130 C191,136 182,144 182,144 C182,144 173,136 173,130 C173,125 177,121 182,121 Z"
-      fill="#2f8fff"
-    />
+  <g clip-path="url(#melb-land-clip)">
+    {rings.map((r) => (
+      <circle cx={hub.x} cy={hub.y} r={r} fill="none" stroke="currentColor" stroke-width="1" stroke-opacity="0.15" />
+    ))}
+    {roads.map((r) => (
+      <path d={r.d} fill="none" stroke="currentColor" stroke-width={r.width} stroke-opacity={r.opacity} />
+    ))}
+    <g transform={`rotate(${cbdAngle} ${hub.x} ${hub.y})`}>
+      {cbdLines.map((l) => (
+        <line x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} stroke="currentColor" stroke-width="1" stroke-opacity="0.55" />
+      ))}
+    </g>
   </g>
+
+  <path
+    d="M0,-9 C5,-9 9,-5 9,0 C9,6 0,14 0,14 C0,14 -9,6 -9,0 C-9,-5 -5,-9 0,-9 Z"
+    fill="#2f8fff"
+    transform={`translate(${hub.x}, ${hub.y})`}
+  />
 </svg>
